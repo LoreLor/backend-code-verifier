@@ -20,13 +20,23 @@ const port: string | number = process.env.PORT || 8000
  */
 app.get('/', (req: Request, res: Response) => {
     //enviar saludo
-    res.send('Welcome to API Restfull Express + Nodemon + TS + Javascript + Mongoose')
+    res.status(200).json({
+        "data": {
+            "message":"Goodbye, world"
+        }
+    })
 })
 
-app.get('/hello', (req: Request, res: Response) => {
-    //enviar saludo
-    res.send('Hello Lore')
+app.get('/hello', (req:Request, res:Response) => {
+    let name: any = req?.query?.name
+    
+    res.status(200).json({
+        "data": {
+            "message": `Hola ${name || 'guess'}`
+        }
+    })
 })
+
 
 
 /**
