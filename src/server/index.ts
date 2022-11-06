@@ -27,9 +27,11 @@ server.use('/api', router)
 server.use(helmet());
 server.use(cors());
 
+
 //* contenido que va a controlar: Content Type
 server.use(express.urlencoded({extended: true, limit:'50mb'}))
 server.use(express.json({limit:'50mb'}));
+
 
 //* redireccion a raiz de api: para evitar que devuelva rutas vacias
 server.get('/', (req:Request, res:Response) => {
