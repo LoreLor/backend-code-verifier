@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from 'express';
-import { HelloController } from './../controller/HelloControler';
+import { HelloController } from '../controller/HelloControler';
 import { LogInfo } from '../utils/loggers';
 
 /**

@@ -1,7 +1,7 @@
 
-import { LogSuccess, LogError } from '@/utils/loggers';
+import { LogSuccess, LogError } from './src/utils/loggers';
 import dotenv from 'dotenv';
-import server from '@/server/index'
+import server from './src/server/index'
 
 //configuracion .env
 dotenv.config();
