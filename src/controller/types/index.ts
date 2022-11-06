@@ -9,3 +9,8 @@ export type Errorresponse = {
     error: string,
     message: string
 }
+
+export type DateResponse = {
+    message: string,
+    Date: any
+}
