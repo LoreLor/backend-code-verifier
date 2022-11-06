@@ -1,3 +1,4 @@
+import { DateResponse } from './../controller/types/index';
 import { GoodbyeController } from './../controller/GoodbyeController';
 import { LogInfo } from './../utils/loggers';
 import { Request, Response, Router } from "express";
@@ -12,7 +13,7 @@ goodbyeRouter.route('/')
 
         const controller : GoodbyeController = new GoodbyeController();
 
-        const response = await controller.getMessage(name);
+        const response : DateResponse = await controller.getMessage(name);
 
         return res.status(200).send(response)
     })

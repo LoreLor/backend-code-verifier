@@ -1,3 +1,4 @@
+import { BasicResponse } from './../controller/types/index';
 import express, { Express, Request, Response } from 'express';
 import { HelloController } from '../controller/HelloControler';
 import { LogInfo } from '../utils/loggers';
@@ -20,7 +21,7 @@ export const helloRouter = express.Router();
         //instancia del controler
         const controller: HelloController = new HelloController();
         //Obtengo respuesta
-        const response = await controller.getMessage(name);
+        const response : BasicResponse = await controller.getMessage(name);
 
         //envio al cliente la respuesta
         return res.status(200).send(response)
