@@ -6,7 +6,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 
-// TODO HTTPS
+// TODO: HTTPS
 import router from '../routes';
 
 
@@ -20,7 +20,11 @@ const server:Express = express();
 // *lo que tendremos sera: http://localhost:8000/api/.... 
 server.use('/api', router)
 
-// TODO Mongoose Connection
+
+//* server estatico 
+server.use(express.static('public'))
+
+// TODO: Mongoose Connection
 
 
 //* security config
