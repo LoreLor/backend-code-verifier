@@ -1,47 +1,24 @@
-import express, { Express, Request, Response } from "express";
+
+import { LogSuccess, LogError } from '@/utils/loggers';
 import dotenv from 'dotenv';
+import server from '@/server/index'
 
-
-/**
- * Configuracion de archivo .env
- */
+//configuracion .env
 dotenv.config();
 
-
-/**
- * App con instancia express
- */
-const app: Express = express();
-const port: string | number = process.env.PORT || 8000
+const port = process.env.PORT || 8000;
 
 
 /**
- * Ruta general
+ * *Puerto donde escucha las request la api
  */
-app.get('/', (req: Request, res: Response) => {
-    //enviar saludo
-    res.status(200).json({
-        "data": {
-            "message":"Goodbye, world"
-        }
-    })
+server.listen(port, () => {
+    LogSuccess(`[SERVER ON]: running at http://localhost:${port}/api`)
 })
 
-app.get('/hello', (req:Request, res:Response) => {
-    let name: any = req?.query?.name
-    
-    res.status(200).json({
-        "data": {
-            "message": `Hola ${name || 'guess'}`
-        }
-    })
-})
-
-
-
 /**
- * Puerto donde escucha las request la api
+ * *Control de errores para el servidor
  */
-app.listen(port, () => {
-    console.log(`Express server: running at http://localhost:${port}`)
+server.on('error', (error) => {
+    LogError(`[SERVER ERROR]: ${error} `)
 })
