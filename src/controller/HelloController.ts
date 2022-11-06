@@ -4,7 +4,7 @@ import { IHelloController } from "./interfaces";
 import { BasicResponse } from "./types";
 
 @Route('/api/hello')
-@Tags("helloController")
+@Tags("HelloController")
 export class HelloController implements IHelloController {
     /**
      * Endpoint que devuelve un mensaje Hello {name} en json
@@ -12,7 +12,7 @@ export class HelloController implements IHelloController {
      * @returns { BasicResponse } Promise de BasicResponse
      */
     @Get("/")
-    public async getMessage(@Query()name?: string | undefined): Promise<BasicResponse> {
+    public async getMessage(@Query()name?: string): Promise<BasicResponse> {
         LogSuccess('[/api/hello] Get Request');
 
         return {
