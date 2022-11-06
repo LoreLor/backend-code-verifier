@@ -1,4 +1,4 @@
-import { LogSuccess } from "@/utils/loggers";
+import { LogSuccess } from "../utils/loggers";
 import { IHelloController } from "./interfaces";
 import { BasicResponse } from "./types";
 

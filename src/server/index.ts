@@ -1,7 +1,5 @@
 import express, {Express, Request, Response} from 'express';
 
-//variables de entorno
-import dotenv from 'dotenv';
 
 //seguridad
 import cors from 'cors';

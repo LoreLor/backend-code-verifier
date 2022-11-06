@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import { HelloController } from './../controller/HelloControler';
-import { LogInfo } from './../utils/loggers';
+import { LogInfo } from '../utils/loggers';
 
 /**
  * Router de Express

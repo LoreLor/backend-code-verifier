@@ -1,4 +1,4 @@
-import { LogInfo } from './../utils/loggers';
+import { LogInfo } from '../utils/loggers';
 import express, {Request, Response, Router} from 'express'
 import { helloRouter } from './HelloRouter';
 
