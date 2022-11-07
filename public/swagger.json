@@ -6,6 +6,19 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"DateResponse": {
+				"properties": {
+					"Date": {},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"Date",
+					"message"
+				],
+				"type": "object"
+			},
 			"BasicResponse": {
 				"properties": {
 					"message": {
@@ -34,6 +47,37 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/api/goodbye": {
+			"get": {
+				"operationId": "GetMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DateResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GoodbyeController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "name",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/api/hello": {
 			"get": {
 				"operationId": "GetMessage",

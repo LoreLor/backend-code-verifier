@@ -1,4 +1,5 @@
 import express, {Express, Request, Response} from 'express';
+import swaggerUi from 'swagger-ui-express';
 
 
 //seguridad
@@ -13,6 +14,17 @@ import router from '../routes';
 
 //creacion server app- express  app || server
 const server:Express = express();
+
+// * Swagger: configuracion de ruta 
+server.use('/docs', 
+    swaggerUi.serve,
+    swaggerUi.setup(undefined, {
+        swaggerOptions: {
+            url: "/swagger.json",
+            explorer: true
+        }
+    })
+)
 
 
 
