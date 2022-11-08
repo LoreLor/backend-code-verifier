@@ -9,6 +9,7 @@ import helmet from 'helmet';
 
 // TODO: HTTPS
 import router from '../routes';
+import mongoose from 'mongoose';
 
 
 
@@ -36,7 +37,10 @@ server.use('/api', router)
 //* server estatico 
 server.use(express.static('public'))
 
-// TODO: Mongoose Connection
+//* Mongoose Connection
+mongoose.connect('mongodb://localhost:27017/code-verified')
+.then(res => console.log(`estoy conectada a bd`))
+
 
 
 //* security config

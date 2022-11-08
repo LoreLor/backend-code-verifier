@@ -6,7 +6,7 @@ import { LogError, LogSuccess } from "@/utils/loggers";
 
 
 /**
- * Metodo para obtener todod los Usuarios de la coleccion de Mongo
+ * Metodo para obtener todos los Usuarios de la coleccion de Mongo
  */
 export const getAllUsers = async () : Promise<any[] | undefined> => {
     try {
