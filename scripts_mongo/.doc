@@ -25,3 +25,54 @@ g- Renombra el campo de name por nombre.
 
 h- Borra todos los contactos que tengan como estado (state) Florida.
    db.contacts.deleteOne({"location.state":"Florida"})
+
+i- Muestra las primeras 5 ciudades que empiecen por A ordenadas de manera ascendente, las soluciones deben ser únicas
+   db.contacts.find({"location.country":/^A/}).sort({"location.country":1}).limit(5)
+
+g- Crea una colección a parte, que solo contenga a los contactos de Francia (France) y que tengan entre 18 y 50 años. Usa una agregación para ello.
+   db.contacts.aggregate([{$match:{"dob.age": {$gte:18}, "dob.age":{$lte:50}}},{$match:{"location.country":"France"}},{$limit:5},{$out : "franceContacts"}])
+
+h- Añade un número favorito a cada contacto, luego crea un bucket agrupando por número favorito que separe en 5 segmentos
+   1- añado numero_favorito: el mismo a todos
+      db.amigos.updateMany({}, {$set: {"numero_favorito": Math.floor(Math.random()*10+1)}})
+
+  MEJOR para agregarle a cada uno un numero distinto
+
+    db.contacts.find().forEach(function(cont){db.contacts.updateOne({_id:cont._id}, {$set:{"numero_favorito": Math.floor(Math.random()*10+1)}})})
+   
+   2- bucket que agrupa por numeros favoritos y separa en 5 segmentos
+
+    db.contacts.aggregate([{$bucketAuto:{groupBy: '$numero_favorito', buckets:6}}])
+
+    rta:[
+         { _id: { min: 1, max: 3 }, count: 1038 },
+         { _id: { min: 3, max: 5 }, count: 1015 },
+         { _id: { min: 5, max: 7 }, count: 1001 },
+         { _id: { min: 7, max: 9 }, count: 962 },
+         { _id: { min: 9, max: 10 }, count: 984 }
+        ]
+
+i- En la colección de Contatcs, haz una proyección la cual tiene que 
+   devolver solo el name y username del contacto.
+   db.contacts.aggregate([{$project:{"name":1, "login.username":1}}])
+
+j- Haz una consulta en la colección de Contacts la cual devuelva un documento 
+   por cada nombre (name) y que sea único, ordenado por apellido (last), tienes
+   que usar el operador $unwind.
+
+   db.contacts.aggregate([{$unwind:'$name'},{$sort: {"name.last":1}}])
+   
+
+k- Haz una proyección convirtiendo la fecha (date) a un formato DD-MM-AAAA, 
+   la nueva variable será fechaNacimiento
+
+   1-convierto a ISODate luego le aplico el formato
+   db.contacts.aggregate({$project: {"fechaNacimiento": {"$dateToString":{"date":{"$toDate": "$dob.date"}, "format":"%d-%m-%Y"}}}})
+
+   rta: {
+    _id: ObjectId("636d675f538be1e6e821e8ae"),
+    fechaNacimiento: '27-09-1994'
+   },
+
+
+    
