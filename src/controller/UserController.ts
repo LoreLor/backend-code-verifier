@@ -80,10 +80,10 @@ export class UserController implements IUserController {
     public async updateUser(@Query()id:string, @Body()user: any): Promise<any> {
         if(id){
             const response = await updateUser(id, user)
-            LogSuccess(`[/api/users] User Updated: ${user}`)
+            LogSuccess(`[/api/users] User Updated: ${user} updating successfull`)
             return response
         }else{
-            LogWarning(`[/api/users] Update User: Can not user updating`)
+            LogWarning(`[/api/users] Update User: Can not user updating provide any ID`)
         }
     }
 }

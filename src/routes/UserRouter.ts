@@ -17,6 +17,7 @@ userRouter.route('/')
         return res.status(200).send(response)
     })
 
+    
     .delete(async(req:Request, res:Response) => {
         const id:any = req?.query?.id
 
@@ -34,7 +35,6 @@ userRouter.route('/')
         let age: number = req?.body?.age;
         LogInfo(`Bodys: ${name}, ${age}, ${email}`);
 
-       
         const controller: UserController = new UserController();
         const user = {
             name:name,
@@ -46,23 +46,27 @@ userRouter.route('/')
         return res.status(201).send(response)
     })
 
+
+
     .put(async(req:Request, res:Response) => {
-        
+        //recibo la data
         let id : any = req?.query?.id;
         let name: string = req?.body?.name;
         let email: string = req?.body?.email;
         let age: number = req?.body?.age;
         LogInfo(`Bodys: ${name}, ${age}, ${email}`);
 
-       
+        //instanciacion del controlador para ejecucion
         const controller: UserController = new UserController();
         const user = {
             name:name,
             email:email,
             age:age
         }
-
+        
+        //obtain response
         const response: any = await controller.updateUser(id, user);
 
+        //envio respuesta al cliente
         return res.status(201).send(response);
     })
