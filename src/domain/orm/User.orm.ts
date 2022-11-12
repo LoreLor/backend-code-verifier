@@ -12,7 +12,9 @@ import { userEntity } from "../entities/User.entity";
  */
 export const getAllUsers = async () : Promise<any[] | undefined> => {
     try {
+        //me traigo el modelo
         const userModel = userEntity();
+        
         const allUsers = await userModel.find({isDelete: false})
         //busco todos los usuarios
         

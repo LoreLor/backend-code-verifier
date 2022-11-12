@@ -76,7 +76,7 @@ export class UserController implements IUserController {
         }  
     }   
 
-    @Put('/:id')
+    @Put('/')
     public async updateUser(@Query()id:string, @Body()user: any): Promise<any> {
         if(id){
             const response = await updateUser(id, user)
