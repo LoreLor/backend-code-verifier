@@ -15,6 +15,8 @@ import mongoose from 'mongoose';
 
 //creacion server app- express  app || server
 const server:Express = express();
+server.use(express.json());
+
 
 // * Swagger: configuracion de ruta 
 server.use('/docs', 

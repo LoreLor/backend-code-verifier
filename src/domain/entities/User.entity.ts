@@ -9,7 +9,7 @@ export const userEntity = () => {
             age: Number
         }
     )
-
-    return mongoose.model('Users', userSchema);
+//si eexiste que me lo devuelva y si no que lo genere
+    return mongoose.models.users || mongoose.model('users', userSchema);
     
 }

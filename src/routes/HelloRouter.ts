@@ -22,7 +22,6 @@ export const helloRouter = express.Router();
         const controller: HelloController = new HelloController();
         //Obtengo respuesta
         const response : BasicResponse = await controller.getMessage(name);
-
         //envio al cliente la respuesta
         return res.status(200).send(response)
     })

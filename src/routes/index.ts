@@ -1,3 +1,4 @@
+import { userRouter } from './UserRouter';
 import { goodbyeRouter } from './GoodbyeRouter';
 import { LogInfo } from '../utils/loggers';
 import express, {Request, Response, Router} from 'express'
@@ -18,9 +19,11 @@ router.get('/', (req:Request, res:Response) => {
 })
 
 //redirecciones a routers y controladores
+
 server.use('/', router );
 server.use('/hello', helloRouter)
 //add more routes
 server.use('/goodbye', goodbyeRouter)
+server.use('/users', userRouter)
 
 export default server;
