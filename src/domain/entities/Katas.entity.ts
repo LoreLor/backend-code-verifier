@@ -7,12 +7,13 @@ export const kataEntity = () => {
             name: String,
             description: String,
             level: Number,
-            user: String,
-            date: String,
-            valoration: Number,
-            chances: Number
+            intents: Number,
+            stars: Number,
+            creator: String,
+            solution: String,
+            participants: String
         }
     )
 
-    return mongoose.model('Katas', kataSchema)
+    return mongoose.model('katas', kataSchema)
 }

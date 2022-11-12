@@ -110,7 +110,7 @@
 				"operationId": "CreateUser",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "User created in DB",
 						"content": {
 							"application/json": {
 								"schema": {}
@@ -118,16 +118,59 @@
 						}
 					}
 				},
+				"description": "Endpoint to post a new User in the Collection \"users\" of DB",
 				"tags": [
 					"UsersController"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
+					"description": "Object created",
 					"required": false,
 					"content": {
 						"application/json": {
-							"schema": {}
+							"schema": {
+								"description": "Object created"
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"200": {
+						"description": "User updating in DB",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Endpoint to update an User in the Collection \"users\" of DB",
+				"tags": [
+					"UsersController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "recives user Id and update Object user",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"description": "recives user Id and update Object user"
+							}
 						}
 					}
 				}

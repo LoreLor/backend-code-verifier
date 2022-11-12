@@ -1,3 +1,4 @@
+import { IKata } from './../../domain/interfaces/IKata.interface';
 import { DateResponse } from './../types/index';
 import { BasicResponse } from "../types";
 
@@ -15,4 +16,10 @@ export interface IUserController {
     deleteUser(id?: String): Promise<any>
     createUser(user: any): Promise<any>
     updateUser(id: String, user: any): Promise<any>
+}
+
+export interface IKatasController {
+    getKatas(): Promise<any>;
+    getKataById(id:string): Promise<any>
+    kataCreate(kata:IKata): Promise<any>
 }

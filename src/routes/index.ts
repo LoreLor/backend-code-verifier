@@ -1,3 +1,4 @@
+import { kataRouter } from './KataRouter';
 import { userRouter } from './UserRouter';
 import { goodbyeRouter } from './GoodbyeRouter';
 import { LogInfo } from '../utils/loggers';
@@ -25,5 +26,8 @@ server.use('/hello', helloRouter)
 //add more routes
 server.use('/goodbye', goodbyeRouter)
 server.use('/users', userRouter)
+
+//Katas
+server.use('/katas', kataRouter)
 
 export default server;

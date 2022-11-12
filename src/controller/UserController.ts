@@ -4,7 +4,7 @@ import { LogSuccess, LogWarning } from '../utils/loggers';
 
 import { IUserController } from './interfaces/index';
 
-import {  Body, Delete, Get, Path, Post, Put, Query, Route, Tags } from 'tsoa';
+import {  Body, Delete, Get, Post, Put, Query, Route, Tags } from 'tsoa';
 
 
 //para documentar con tsa
@@ -76,6 +76,11 @@ export class UserController implements IUserController {
         }  
     }   
 
+    /**
+     * Endpoint to update an User in the Collection "users" of DB
+     * @param { string } id @param {any} user  recives user Id and update Object user
+     * @returns User updating in DB
+     */
     @Put('/')
     public async updateUser(@Query()id:string, @Body()user: any): Promise<any> {
         if(id){
