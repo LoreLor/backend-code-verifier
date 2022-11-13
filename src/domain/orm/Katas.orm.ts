@@ -75,3 +75,16 @@ export const kataDelete = async(id:string): Promise<any> => {
     }
 }
 
+
+// * KATA FILTER BY LEVEL
+export const getKataByLevel = async(level:any): Promise<any> => {
+    try {
+        const kataModel = kataEntity();
+        
+        const response = await kataModel.find({"level": level })
+
+        return response
+    } catch (error) {
+        LogError(`[ORM ERROR]:Kata by Level: ${error}`)
+    }
+}

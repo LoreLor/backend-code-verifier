@@ -1,5 +1,5 @@
 import { LogError, LogSuccess } from './../utils/loggers';
-import { getKataById, getKatas, kataCreate, kataDelete, kataUpdate } from './../domain/orm/Katas.orm';
+import { getKataById, getKatas, kataCreate, kataDelete, kataUpdate , getKataByLevel } from './../domain/orm/Katas.orm';
 import { IKatasController } from './interfaces/index';
 
 
@@ -53,7 +53,7 @@ export class KatasController implements IKatasController {
             LogError(`[ORM ERROR] Kata not update`)
         }
     }
-
+    
     public async kataDelete(id: string): Promise<any> {
         if(id){
             LogSuccess(`[/api/katas] Delete Kata by id: ${id}`)
@@ -63,6 +63,18 @@ export class KatasController implements IKatasController {
             return response;
         }else{
             LogError(`[ORM ERROR] Kata not delete`)
+        }
+    }
+
+    public async getKataByLevel(level:any): Promise<any> {
+        if(level){
+            LogSuccess(`[/api/katas/level] Get Kata by Query level: ${level}`)
+            
+            const response = await getKataByLevel(level)
+            
+            return response;
+        }else{
+            LogError(`[ORM ERROR] Kata by level not found`)
         }
     }
 }

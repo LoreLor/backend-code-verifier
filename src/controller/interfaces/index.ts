@@ -24,4 +24,7 @@ export interface IKatasController {
     kataCreate(kata:any): Promise<any>
     kataUpdate(id:String, kata:any): Promise<any>
     kataDelete(id:string): Promise<any>
+
+    
+    getKataByLevel(level:Number): Promise<any>
 }

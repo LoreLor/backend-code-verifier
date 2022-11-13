@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { KataLevel } from './../domain/interfaces/IKata.interface';
+
 import { KatasController } from './../controller/KatasController';
 
 
@@ -7,21 +7,30 @@ export const kataRouter = Router();
 
 kataRouter.route('/')
     .get(async(req:Request, res:Response) => {
+        let level: any = req?.query?.level
+        if(level){
+            const controller: KatasController = new KatasController();
 
-        //instancio kata controller to execute method
-        const controller: KatasController = new KatasController();
-        // obtain response whit method
-        const response: any = await controller.getKatas()
-        // send response to client
-        return res.status(200).send(response);
+            const response: any = await controller.getKataByLevel(level)
+
+            return res.status(200).json({msg:`Kata By Level: ${level}`, res:response})
+        }else{
+            //instancio kata controller to execute method
+            const controller: KatasController = new KatasController();
+            // obtain response whit method
+            const response: any = await controller.getKatas()
+            // send response to client
+            return res.status(200).send(response);
+        }
     })
+
 
     
     .post(async(req:Request, res:Response) => {
         // read from body
         let name:string = req?.body?.name;
         let description:string = req?.body?.description;
-        let level: KataLevel = req?.body?.level;
+        let level: number = req?.body?.level;
         let intents:number = req?.body?.intents;
         let stars:number = req?.body?.stars;
         let creator:string = req?.body?.creator;
@@ -63,7 +72,7 @@ kataRouter.route('/')
         let id: string = req?.params?.id;
         let name:string = req?.body?.name;
         let description:string = req?.body?.description;
-        let level: KataLevel = req?.body?.level;
+        let level: number = req?.body?.level;
         let intents:number = req?.body?.intents;
         let stars:number = req?.body?.stars;
         let creator:string = req?.body?.creator;
