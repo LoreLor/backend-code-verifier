@@ -1,7 +1,6 @@
-import { IKata, KataLevel } from './../domain/interfaces/IKata.interface';
-import { kataEntity } from './../domain/entities/Katas.entity';
-import { KatasController } from './../controller/KatasController';
 import { Request, Response, Router } from "express";
+import { KataLevel } from './../domain/interfaces/IKata.interface';
+import { KatasController } from './../controller/KatasController';
 
 
 export const kataRouter = Router();
@@ -17,27 +16,19 @@ kataRouter.route('/')
         return res.status(200).send(response);
     })
 
-    .get(async(req:Request, res:Response) => {
-        const {id} = req.params
-        const controller : KatasController = new KatasController();
-        const response : any = await controller.getKataById(id)
-        return res.status(200).send(response)
-    })
-
+    
     .post(async(req:Request, res:Response) => {
         // read from body
         let name:string = req?.body?.name;
         let description:string = req?.body?.description;
-        let level:KataLevel = req?.body?.level;
+        let level: KataLevel = req?.body?.level;
         let intents:number = req?.body?.intents;
         let stars:number = req?.body?.stars;
         let creator:string = req?.body?.creator;
         let solution:string = req?.body?.solution;
-        let participants:string[] = req?.body?.participants;
+        let participants:string = req?.body?.participants;
 
-        //controller instance
-        const controller: KatasController = new KatasController();
-        const newKata: IKata = {
+        const newKata: any = {
             name:name,
             description:description,
             level:level,
@@ -47,9 +38,62 @@ kataRouter.route('/')
             solution:solution,
             participants:participants,
         }
+        //controller instance
+        const controller: KatasController = new KatasController();
 
         const response: any = await controller.kataCreate(newKata)
-        return res.status(201).send(response)
+        
+        return res.status(201).json({msg:`Kata create successfull: ${newKata}`})
+    })
 
+    
+    kataRouter.route('/:id')
+    .get(async(req:Request, res:Response) => {
+        const {id }= req.params
 
+        const controller : KatasController = new KatasController();
+        
+        const response : any = await controller.getKataById(id)
+        
+        return res.status(200).send(response)
+    })
+
+    .put(async(req:Request, res:Response) => {
+        // read from body
+        let id: string = req?.params?.id;
+        let name:string = req?.body?.name;
+        let description:string = req?.body?.description;
+        let level: KataLevel = req?.body?.level;
+        let intents:number = req?.body?.intents;
+        let stars:number = req?.body?.stars;
+        let creator:string = req?.body?.creator;
+        let solution:string = req?.body?.solution;
+        let participants:string = req?.body?.participants;
+
+        const updateKata: any = {
+            name:name,
+            description:description,
+            level:level,
+            intents:intents,
+            stars:stars,
+            creator:creator,
+            solution:solution,
+            participants:participants,
+        }
+        
+        const controller :KatasController = new KatasController();
+        
+        const response: any = await controller.kataUpdate(id, updateKata)
+        
+        return res.status(201).json({msg:'Kata successfull update', updateKata})
+    })
+    
+    .delete(async(req:Request, res:Response) => {
+        let id : string = req.params.id;
+
+        const controller: KatasController = new KatasController();
+        
+        const response: any = await controller.kataDelete(id)
+        
+        return res.status(200).json({msg:`Kata Delete Successfull: ${id}`, })
     })

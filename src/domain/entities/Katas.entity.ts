@@ -4,16 +4,41 @@ export const kataEntity = () => {
 
     let kataSchema = new mongoose.Schema(
         {
-            name: String,
-            description: String,
-            level: Number,
-            intents: Number,
-            stars: Number,
-            creator: String,
-            solution: String,
-            participants: String
+            name: {
+                type: String,
+                require: true
+            },
+            description: {
+                type: String,
+                require: true
+            },
+            level: {
+                type: Number,
+                require: true
+            },
+            intents: {
+                type: Number,
+                require: true
+            },
+            stars: {
+                type: Number,
+                require: true
+            },
+            creator: {
+                type: String,
+                require: true
+            },
+            solution: {
+                type: String,
+                require: true
+            },
+            participants: {
+                type: String,
+                require: true
+            }
         }
     )
 
-    return mongoose.model('katas', kataSchema)
+    return mongoose.models.katas || mongoose.model('katas', kataSchema)
+
 }
