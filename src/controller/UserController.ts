@@ -1,5 +1,5 @@
 
-import { getUserById, getAllUsers, deleteUserById, createUser, updateUser } from '../domain/orm/User.orm';
+import { getUserById, getAllUsers, deleteUserById, updateUser } from '../domain/orm/User.orm';
 import { LogSuccess, LogWarning } from '../utils/loggers';
 
 import { IUserController } from './interfaces/index';
@@ -50,7 +50,7 @@ export class UserController implements IUserController {
 
             response = await deleteUserById(id)
 
-            console.log('Usuer deleted')
+            console.log('User deleted')
 
         } else {
             LogWarning('[/api/users] Delete User Request WITHOUT ID')
@@ -67,19 +67,19 @@ export class UserController implements IUserController {
      * @param { any } user Object created
      * @returns User created in DB
      */
-    @Post('/')
-    public async createUser(@Body() user?: any): Promise<any> {
-        if (user) {
-            const response = await createUser(user)
+    // @Post('/')
+    // public async createUser(@Body() user?: any): Promise<any> {
+    //     if (user) {
+    //         const response = await createUser(user)
 
-            LogSuccess(`[/api/users] User Created: ${user.name}`)
+    //         LogSuccess(`[/api/users] User Created: ${user.name}`)
 
-            return response
+    //         return response
 
-        } else {
-            LogWarning(`[/api/users] Create User: Oops something wrong`)
-        }
-    }
+    //     } else {
+    //         LogWarning(`[/api/users] Create User: Oops something wrong`)
+    //     }
+    // }
 
     /**
      * Endpoint to update an User in the Collection "users" of DB

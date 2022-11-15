@@ -30,6 +30,47 @@
 				],
 				"type": "object",
 				"description": "Para definir la estructura de mis datos: devuelve un json"
+			},
+			"IUser": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"age": {
+						"type": "number",
+						"format": "double"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"email",
+					"age",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IAuth": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -106,8 +147,8 @@
 					}
 				]
 			},
-			"post": {
-				"operationId": "CreateUser",
+			"put": {
+				"operationId": "UpdateUser",
 				"responses": {
 					"200": {
 						"description": "User created in DB",
@@ -119,36 +160,6 @@
 					}
 				},
 				"description": "Endpoint to post a new User in the Collection \"users\" of DB",
-				"tags": [
-					"UsersController"
-				],
-				"security": [],
-				"parameters": [],
-				"requestBody": {
-					"description": "Object created",
-					"required": false,
-					"content": {
-						"application/json": {
-							"schema": {
-								"description": "Object created"
-							}
-						}
-					}
-				}
-			},
-			"put": {
-				"operationId": "UpdateUser",
-				"responses": {
-					"200": {
-						"description": "User updating in DB",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					}
-				},
-				"description": "Endpoint to update an User in the Collection \"users\" of DB",
 				"tags": [
 					"UsersController"
 				],
@@ -238,6 +249,66 @@
 						}
 					}
 				]
+			}
+		},
+		"/api/auth/register": {
+			"post": {
+				"operationId": "UserRegister",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"AuthController"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IUser"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/auth/login": {
+			"post": {
+				"operationId": "UserLogin",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"AuthController"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IAuth"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

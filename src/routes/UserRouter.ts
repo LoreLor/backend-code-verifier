@@ -1,3 +1,5 @@
+
+
 import { LogInfo } from './../utils/loggers';
 import { UserController } from './../controller/UserController';
 import { Request, Response, Router } from 'express';
@@ -24,27 +26,27 @@ userRouter.route('/')
         const controller: UserController = new UserController();
 
         const response: any = await controller.deleteUser(id)
-        return res.status(200).send(response)
+        return res.status(204).send(response)
     })
 
 
-    .post(async(req:Request, res:Response) => {
+    // .post(async(req:Request, res:Response) => {
 
-        let name: string = req?.body?.name;
-        let email: string = req?.body?.email;
-        let age: number = req?.body?.age;
-        LogInfo(`Bodys: ${name}, ${age}, ${email}`);
+    //     let name: string = req?.body?.name;
+    //     let email: string = req?.body?.email;
+    //     let age: number = req?.body?.age;
+    //     LogInfo(`Bodys: ${name}, ${age}, ${email}`);
 
-        const controller: UserController = new UserController();
-        const user = {
-            name:name,
-            email:email,
-            age:age
-        }
+    //     const controller: UserController = new UserController();
+    //     const user = {
+    //         name:name,
+    //         email:email,
+    //         age:age
+    //     }
 
-        const response: any = await controller.createUser(user)
-        return res.status(201).send(response)
-    })
+    //     const response: any = await controller.createUser(user)
+    //     return res.status(201).send(response)
+    // })
 
 
 
@@ -68,5 +70,7 @@ userRouter.route('/')
         const response: any = await controller.updateUser(id, user);
 
         //envio respuesta al cliente
-        return res.status(201).send(response);
+        return res.status(200).send(response);
     })
+
+

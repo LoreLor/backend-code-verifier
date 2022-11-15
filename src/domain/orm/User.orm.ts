@@ -1,8 +1,15 @@
+import { generateToken } from './../../middleware/tokens';
+import { IUser } from './../interfaces/IUser.interface';
+import { IAuth } from '../interfaces/IAuth.interface';
 
-import { LogError } from './../../utils/loggers';
+import { LogError, LogWarning } from './../../utils/loggers';
 import { userEntity } from "../entities/User.entity";
 
+import  jwt  from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 //Peticiones CRUD
 
@@ -54,20 +61,20 @@ export const deleteUserById = async(id: string) : Promise<any>=> {
 }
 
 
-// CREATE USER
-export const createUser = async(user: any): Promise<any> => {
+// CREATE USER - REGISTER
+// export const createUser = async(user: any): Promise<any> => {
     
-    try {
-        const userModel = userEntity();
+//     try {
+//         const userModel = userEntity();
 
-        const response = await userModel.create(user);
+//         const response = await userModel.create(user);
 
-        return response
+//         return response
 
-    } catch (error) {
-        LogError(`[ORM ERROR] Create User: ${error}`)
-    }
-}
+//     } catch (error) {
+//         LogError(`[ORM ERROR] Create User: ${error}`)
+//     }
+// }
 
 // UPDATE USER
 export const updateUser = async(id: String, user:any): Promise<any> => {
@@ -81,3 +88,54 @@ export const updateUser = async(id: String, user:any): Promise<any> => {
         LogError(`[ORM ERROR]: Updating User ${id}: ${error}`);
     }
 }
+
+
+// REGISTER USER
+export const userRegister = async(user: IUser): Promise<any | undefined> => {
+    try {
+        const userModel = userEntity();
+        
+        const response = await userModel.create(user)
+        
+        return response
+    } catch (error) {
+        LogError(`[ORM ERROR]: Registered User ${user}: ${error}`);
+    }
+}
+
+
+// LOGIN USER
+export const userLogin = async(auth:IAuth): Promise<any | undefined> => {
+    try {
+        const userModel = userEntity();
+
+        //valido existencia de usuario buscando el email
+          const user = await userModel.findOne({email: auth.email})
+            if(!user){
+                LogError(`[ERROR Authentication in ORM]: User Not Found: ${user}`);
+                
+            }
+           //comparo las contraseñas: guardada e ingresada
+           const validPassword = bcrypt.compareSync(auth.password, user.password)
+      
+            if(!validPassword){
+                LogWarning(`[ERROR Authentication in ORM]: Password Not Valid`);
+                throw new Error(`[ERROR Authentication in ORM]: Password Not Valid`);
+
+            }
+
+            //creo el jwt
+            const token = generateToken(user)
+
+            return {
+                user: user,
+                token: token
+            }
+        
+    }catch(error){
+        LogError(`[ORM ERROR]: Login User : ${error}`);
+    }
+}
+
+//TODO: LOGOUT
+
