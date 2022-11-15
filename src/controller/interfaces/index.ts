@@ -34,4 +34,6 @@ export interface IAuthController {
     userRegister(user:IUser):Promise<any>
     userLogin(auth:IAuth): Promise<any>
     userLogout(auth:IAuth): Promise<any>
+
+    userData(id:string):Promise<any>
 }

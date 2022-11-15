@@ -1,3 +1,5 @@
+
+import { verifyToken } from '../middleware/tokens';
 import { IAuth } from './../domain/interfaces/IAuth.interface';
 import { IUser } from './../domain/interfaces/IUser.interface';
 import { Request, Response, Router } from "express";
@@ -5,8 +7,6 @@ import { AuthController } from './../controller/AuthController';
 import bcrypt from 'bcrypt'
 
 export const authRouter = Router()
-
-
 
 // Authorization 
 authRouter.route('/register')
@@ -47,10 +47,36 @@ authRouter.route('/login')
 
             const response = await controller.userLogin(auth)
 
-            return res.status(201).json({msg:'User Logged Successfull', res: response})
+            return res.status(200).json({msg:'User Logged Successfull', res: response})
         }else{
             return res.status(400).json({msg:'[ERROR User Data missing]: No user no logged'});
         }
     })
+
+
+//* PROTEJO RUTAS: uso middleware
+// Obtengo Usuario por query
+authRouter.route('/userData')
+    .get(verifyToken, async(req:Request, res:Response) => {
+        const id: any = req?.query?.id
+
+        if(id){
+            //si tengo id => instancio el AuthController
+            const controller : AuthController = new AuthController();
+            //obtengo respuesta
+            const response : any = await controller.userData(id)
+            
+            return res.status(200).json({msg:`User By Id: ${id}`, res: response})
+        }else{
+            return res.status(401).send({msg: 'You are not authorized'})
+        }
+    })
+
+
+
+
+
+
+
 
     //TODO: LOGOUT

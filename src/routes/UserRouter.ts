@@ -1,3 +1,4 @@
+import { verifyToken } from './../middleware/tokens';
 
 
 import { LogInfo } from './../utils/loggers';
@@ -8,7 +9,7 @@ import { Request, Response, Router } from 'express';
 export const userRouter = Router()
 
 userRouter.route('/')
-    .get(async(req: Request, res: Response) => {
+    .get(verifyToken, async(req: Request, res: Response) => {
         //obtain a query param (id)
         const id: any = req?.query?.id
         //controller instace to execute method
@@ -20,7 +21,7 @@ userRouter.route('/')
     })
 
     
-    .delete(async(req:Request, res:Response) => {
+    .delete(verifyToken, async(req:Request, res:Response) => {
         const id:any = req?.query?.id
 
         const controller: UserController = new UserController();
@@ -50,7 +51,7 @@ userRouter.route('/')
 
 
 
-    .put(async(req:Request, res:Response) => {
+    .put(verifyToken, async(req:Request, res:Response) => {
         //recibo la data
         let id : any = req?.query?.id;
         let name: string = req?.body?.name;

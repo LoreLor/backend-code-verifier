@@ -25,12 +25,15 @@ router.get('/', (req:Request, res:Response) => {
 
 server.use('/', router );
 server.use('/hello', helloRouter)
+
 //add more routes
 server.use('/goodbye', goodbyeRouter)
 server.use('/users', userRouter)
 
 //Katas
 server.use('/katas', kataRouter)
+
+//auth
 server.use('/auth', authRouter)
 
 

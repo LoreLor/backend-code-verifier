@@ -20,7 +20,7 @@ export const generateToken = (user:any) => {
             email: user.email,
             age: user.age
 
-        }, process.env.JWT_KEY || 'SecretJWT', {expiresIn:'1d'}
+        }, process.env.JWT_KEY || 'SecretJWT', {expiresIn:"1d"}
     )
 }
 
@@ -34,25 +34,30 @@ export const generateToken = (user:any) => {
  * @returns Errors of verifications or next execution
  */
 export const verifyToken = async(req:Request, res:Response, next:NextFunction) => {
-    //verifico la cabecera
-    const authorization :any = req.headers.authorization;
+    //verifico el Header
+    let token: any = req.headers['x-access-token'];
 
-    //verifico si el usuario esta autorizado
-    if(authorization){
-        const token = authorization.slice(7, authorization.length); //Bearer XXXXXX
-
-        jwt.verify(token, process.env.JWT_KEY || 'SecretJWT', (err: any, decode: any) => {
-            if(err){
-                return res.status(403).send({
-                    authenticationError: 'Missing JWT in request',
-                    message: 'Not authorised to consume this endpoint'
-                })
-            }else{
-                req= decode; 
-                next();
-            }
-        })
-    }else{
-        return res.status(404).send({msg:'No Token'})
+    // Verify if jwt is present
+    if(!token){
+        return res.status(403).send({
+            authenticationError: 'Missing JWT in request',
+            message: 'Not authorised to consume this endpoint'
+        });
     }
+
+    // Verify the token obtained. We pass the secret
+    jwt.verify(token, process.env.JWT_KEY || 'Secret_JWT', (err: any, decoded: any) => {
+
+        if(err){
+            return res.status(500).send({
+                authenticationError: 'JWT verification failed',
+                message: 'Failed to verify JWT token in request'
+            });
+        }
+
+        // Execute Next Function -> Protected Routes will be executed
+        next();
+
+    });
+
 }
