@@ -1,8 +1,9 @@
+import { IKata, KataLevel } from './../interfaces/IKata.interface';
 import  mongoose  from 'mongoose';
 
 export const kataEntity = () => {
 
-    let kataSchema = new mongoose.Schema(
+    let kataSchema = new mongoose.Schema<IKata>(
         {
             name: {
                 type: String,
@@ -13,7 +14,7 @@ export const kataEntity = () => {
                 require: true
             },
             level: {
-                type: Number,
+                type: String,
                 require: true
             },
             intents: {
@@ -33,12 +34,11 @@ export const kataEntity = () => {
                 require: true
             },
             participants: {
-                type: String,
+                type: [],
                 require: true
             }
         }
     )
 
     return mongoose.models.katas || mongoose.model('katas', kataSchema)
-
 }

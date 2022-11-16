@@ -70,6 +70,7 @@ kataRouter.route('/')
         
         return res.status(200).send(response)
     })
+    
 
     .put(async(req:Request, res:Response) => {
         // read from body
@@ -101,6 +102,7 @@ kataRouter.route('/')
         return res.status(201).json({msg:'Kata successfull update', updateKata})
     })
     
+
     .delete(async(req:Request, res:Response) => {
         let id : string = req.params.id;
 

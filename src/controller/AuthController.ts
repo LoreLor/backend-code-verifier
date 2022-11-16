@@ -4,7 +4,7 @@ import { LogSuccess, LogWarning, LogError } from './../utils/loggers';
 import { IUser } from '../domain/interfaces/IUser.interface';
 import { IAuthController } from './interfaces/index';
 import { userRegister } from '../domain/orm/User.orm';
-import { Body, Get, Post, Route, Tags } from 'tsoa';
+import { Body, Get, Path, Post, Query, Route, Tags } from 'tsoa';
 
 
 @Route('/api/auth')
@@ -41,7 +41,7 @@ export class AuthController implements IAuthController {
     }
 
     @Get('/userData')
-    public async userData(id: string): Promise<any | undefined> {
+    public async userData(@Query() id: string): Promise<any | undefined> {
         let response: any = '';
 
         if(id){

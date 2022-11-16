@@ -1,8 +1,7 @@
-
+import { IKata } from './../interfaces/IKata.interface';
 import { LogError } from '../../utils/loggers';
 import { kataEntity } from '../entities/Katas.entity';
 
-//Peticiones CRUD
 
 /**
  * * Metodos para peticionar a la Base de datos
@@ -15,12 +14,12 @@ export const getKatas = async(page:number, limit:number): Promise<any>=> {
 
         let response: any = {};
         
-        const total = await kataModel.countDocuments();
+        const total: number = await kataModel.countDocuments();
         response.totalPages = Math.ceil(total / limit)
         response.currentPage = page;
 
 
-        const katas = await kataModel.find()
+        const katas: IKata[] = await kataModel.find()
             .select('_id name level')
             .limit(limit)
             .skip((page -1) * limit)
@@ -41,7 +40,7 @@ export const getKataById = async(id:string): Promise<any> => {
     try {
         const kataModel = kataEntity();
 
-        const response = await kataModel.findById(id).select('_id name level')
+        const response = await kataModel.findById(id)//.select('_id name level')
         
         return response;
     } catch (error) {
@@ -50,7 +49,7 @@ export const getKataById = async(id:string): Promise<any> => {
 }
 
 // * KATA CREATE
-export const kataCreate = async(kata: any): Promise<any> => {
+export const kataCreate = async(kata: IKata): Promise<any> => {
     try {
         const kataModel = kataEntity();
 
@@ -63,7 +62,7 @@ export const kataCreate = async(kata: any): Promise<any> => {
 }
 
 // * KATA UPDATE
-export const kataUpdate = async(id:string, kata:any): Promise<any> => {
+export const kataUpdate = async(id:string, kata:IKata): Promise<any> => {
     try {
         const kataModel = kataEntity();
         

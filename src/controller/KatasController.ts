@@ -1,11 +1,21 @@
+import { IKata, KataLevel } from './../domain/interfaces/IKata.interface';
 import { LogError, LogSuccess } from './../utils/loggers';
 import { getKataById, getKatas, kataCreate, kataDelete, kataUpdate , getKataByLevel } from './../domain/orm/Katas.orm';
 import { IKatasController } from './interfaces/index';
+import { Body, Delete, Get, Path, Post, Put, Query, Route, Tags } from 'tsoa';
 
-
+@Route('/api/katas')
+@Tags("KatasController")
 export class KatasController implements IKatasController {
-    
-    public async getKatas(page:number, limit:number): Promise<any> {
+
+
+    /**
+     * Endpoint to retrieve the Katas in the Collection "katas" of DB
+     * @param {number} page @param {number} limit pagination
+     * @returns katas with pagination
+     */
+    @Get('/')
+    public async getKatas(@Query() page:number, @Query() limit:number): Promise<any> {
         try {
             LogSuccess('[/api/katas]: Get All Katas request');
             
@@ -17,8 +27,13 @@ export class KatasController implements IKatasController {
         }
     }
 
-
-    public async getKataById(id: string): Promise<any> {
+    /**
+     * Endpoint to get Kata By Id in the Collection "katas" of DB
+     * @param {string} id  query param from Id of kata 
+     * @returns detail of kata
+     */
+    @Get('/:id')
+    public async getKataById(@Path() id:string): Promise<any> {
         if(id){
             LogSuccess('[/api/katas/:id]: Get Kata By Id request');
             
@@ -30,7 +45,13 @@ export class KatasController implements IKatasController {
         }
     }
 
-    public async kataCreate(kata: any): Promise<any> {
+    /**
+     * Endpoint to post a new Kata in the Collection "katas" of DB
+     * @param {IKata} kata object with data from body
+     * @returns the new kata created
+     */
+    @Post('/')
+    public async kataCreate(@Body() kata: IKata): Promise<any> {
         if(kata){
             LogSuccess('[/api/katas]: Create Kata Successfully');
             
@@ -42,7 +63,14 @@ export class KatasController implements IKatasController {
         }
     }
 
-    public async kataUpdate(id:string, kata:any): Promise<any> {
+
+    /**
+     * Endpoint to update an Kata in the Collection "katas" of DB
+     * @param { string } id @param {IKata} kata  recives user Id and update Object user
+     * @returns Kata updating in DB
+     */
+    @Put('/:id')
+    public async kataUpdate(@Path() id:string, @Body() kata:IKata): Promise<any> {
         if(id){
             LogSuccess(`[/api/katas/:id] Get kata and update: ${id}`)
             
@@ -54,9 +82,16 @@ export class KatasController implements IKatasController {
         }
     }
     
-    public async kataDelete(id: string): Promise<any> {
+
+    /**
+     * Endpoint to delete Kata in the Collection "katas" of DB
+     * @param {string} id  Id of kata to delete (optional)
+     * @returns delete kata by id  message 
+     */
+    @Delete('/:id')
+    public async kataDelete(@Path() id: string): Promise<any> {
         if(id){
-            LogSuccess(`[/api/katas] Delete Kata by id: ${id}`)
+            LogSuccess(`[/api/katas/:id] Delete Kata by id: ${id}`)
             
             const response = await kataDelete(id);
             
@@ -66,15 +101,21 @@ export class KatasController implements IKatasController {
         }
     }
 
-    public async getKataByLevel(page:number, limit:number, level:any): Promise<any> {
-        if(level){
-            LogSuccess(`[/api/katas/level] Get Kata by Query level: ${level}`)
+    // /**
+    //  * Endpoint to get Kata By Level in the Collection "katas" of DB
+    //  * @param {KataLevel} level  query param from Id of kata 
+    //  * @returns detail of kata
+    //  */
+    // @Get('')
+    // public async getKataByLevel(@Query() page:number, @Query() limit:number, @Query() level:KataLevel): Promise<any> {
+    //     if(level){
+    //         LogSuccess(`[/api/katas?level] Get Kata by Query level: ${level}`)
             
-            const response = await getKataByLevel(page, limit, level)
+    //         const response = await getKataByLevel(page, limit, level)
             
-            return response;
-        }else{
-            LogError(`[ORM ERROR] Kata by level not found`)
-        }
-    }
+    //         return response;
+    //     }else{
+    //         LogError(`[ORM ERROR] Kata by level not found`)
+    //     }
+    // }
 }

@@ -6,6 +6,59 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"KataLevel": {
+				"enum": [
+					"Basic",
+					"Medium",
+					"High"
+				],
+				"type": "string"
+			},
+			"IKata": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"level": {
+						"$ref": "#/components/schemas/KataLevel"
+					},
+					"intents": {
+						"type": "number",
+						"format": "double"
+					},
+					"stars": {
+						"type": "number",
+						"format": "double"
+					},
+					"creator": {
+						"type": "string"
+					},
+					"participants": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"solution": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"description",
+					"level",
+					"intents",
+					"stars",
+					"creator",
+					"participants",
+					"solution"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"DateResponse": {
 				"properties": {
 					"Date": {},
@@ -88,6 +141,178 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/api/katas": {
+			"get": {
+				"operationId": "GetKatas",
+				"responses": {
+					"200": {
+						"description": "katas with pagination",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Endpoint to retrieve the Katas in the Collection \"katas\" of DB",
+				"tags": [
+					"KatasController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "pagination",
+						"in": "query",
+						"name": "limit",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "KataCreate",
+				"responses": {
+					"200": {
+						"description": "the new kata created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Endpoint to post a new Kata in the Collection \"katas\" of DB",
+				"tags": [
+					"KatasController"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "object with data from body",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IKata",
+								"description": "object with data from body"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/katas/{id}": {
+			"get": {
+				"operationId": "GetKataById",
+				"responses": {
+					"200": {
+						"description": "detail of kata",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Endpoint to get Kata By Id in the Collection \"katas\" of DB",
+				"tags": [
+					"KatasController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "query param from Id of kata",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "KataUpdate",
+				"responses": {
+					"200": {
+						"description": "Kata updating in DB",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Endpoint to update an Kata in the Collection \"katas\" of DB",
+				"tags": [
+					"KatasController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "recives user Id and update Object user",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IKata",
+								"description": "recives user Id and update Object user"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "KataDelete",
+				"responses": {
+					"200": {
+						"description": "delete kata by id  message",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Endpoint to delete Kata in the Collection \"katas\" of DB",
+				"tags": [
+					"KatasController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Id of kata to delete (optional)",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/api/users": {
 			"get": {
 				"operationId": "GetUsers",
@@ -107,6 +332,24 @@
 				],
 				"security": [],
 				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
 					{
 						"description": "Id of user to retriev (optional)",
 						"in": "query",
@@ -309,6 +552,35 @@
 						}
 					}
 				}
+			}
+		},
+		"/api/auth/userData": {
+			"get": {
+				"operationId": "UserData",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"AuthController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},
