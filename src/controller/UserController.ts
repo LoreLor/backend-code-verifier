@@ -18,7 +18,7 @@ export class UserController implements IUserController {
      * @returns All Users or User by Id
      */
     @Get('/')
-    public async getUsers(@Query() id?: String): Promise<any> {
+    public async getUsers(@Query()page:number, @Query()limit:number, @Query() id?: String): Promise<any> {
 
         if (id) {
             LogSuccess(`[/api/users?id]: Get User by id: ${id}`)
@@ -29,7 +29,7 @@ export class UserController implements IUserController {
         } else {
             LogSuccess('[/api/users]: Get All Users request');
 
-            const response = await getAllUsers()
+            const response = await getAllUsers(page, limit)
 
             return response
         }

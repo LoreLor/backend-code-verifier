@@ -20,7 +20,7 @@ export const generateToken = (user:any) => {
             email: user.email,
             age: user.age
 
-        }, process.env.JWT_KEY || 'SecretJWT', {expiresIn:"1d"}
+        }, process.env.JWT_KEY || 'SecretJWT', {expiresIn:"15d"}
     )
 }
 

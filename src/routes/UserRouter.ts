@@ -11,11 +11,17 @@ export const userRouter = Router()
 userRouter.route('/')
     .get(verifyToken, async(req: Request, res: Response) => {
         //obtain a query param (id)
-        const id: any = req?.query?.id
+        const id: any = req?.query?.id;
+
+        const page: any = req?.query?.page || 1;
+
+        const limit: any = req?.query?.limit || 10;
+
+
         //controller instace to execute method
         const controller: UserController = new UserController();
         //obtain response
-        const response: any = await controller.getUsers(id)
+        const response: any = await controller.getUsers(page, limit, id)
         //send to client 
         return res.status(200).send(response)
     })

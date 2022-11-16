@@ -1,3 +1,4 @@
+import { IUser } from './../../domain/interfaces/IUser.interface';
 /**
  * Para definir la estructura de mis datos: devuelve un json
  */
@@ -13,4 +14,10 @@ export type Errorresponse = {
 export type DateResponse = {
     message: string,
     Date: any
+}
+
+export type UserResponse = {
+    users: IUser[],
+    totalPages: number,
+    currentPage: number
 }

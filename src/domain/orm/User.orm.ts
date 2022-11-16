@@ -5,7 +5,7 @@ import { IAuth } from '../interfaces/IAuth.interface';
 import { LogError, LogWarning } from './../../utils/loggers';
 import { userEntity } from "../entities/User.entity";
 
-import jwt from 'jsonwebtoken';
+
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 
@@ -17,15 +17,32 @@ dotenv.config();
 /**
  * Metodo para obtener todos los Usuarios de la coleccion de Mongo
  */
-export const getAllUsers = async (): Promise<any[] | undefined> => {
+export const getAllUsers = async (page:number, limit:number): Promise<any[] | undefined> => {
     try {
         //me traigo el modelo
         const userModel = userEntity();
 
-        const allUsers = await userModel.find({ isDelete: false })
-        //busco todos los usuarios
+        let response: any = {};
 
-        return allUsers
+        //cuento los documentos de la coleccion -PAGINADO
+        const total = await userModel.countDocuments()
+        response.totalPage = Math.ceil(total / limit)
+        response.currentPage = page;
+
+
+        //busco todos los usuarios: me devuelve todos los campos menos la pass
+        const users = await userModel.find({ isDeleted: false }, {_id:1, name:1, email:1, age:1})
+                        //.select('name email age')tambien se puede seleccionar campos asi
+                        .limit(limit)
+                        .skip((page -1) * limit) //elementos por pagina
+                        .exec()                 //permite ejecutar la consulta
+        response.users = users
+                        
+        //podria gestionar tambien con un forEach para que no venga el password
+        // users.forEach((user: IUser) => {
+        //       user.password = ""
+            
+        return response
 
     } catch (error) {
         LogError(`[ORM ERROR]: ${error}`)
@@ -38,8 +55,8 @@ export const getUserById = async (id: String): Promise<any> => {
     try {
         const userModel = userEntity();  //me traigo el modelo
 
-        const response = await userModel.findById(id)  //busco por id
-
+        const response = await userModel.findById(id).select('_id name email age')  //busco por id
+                            
         return response;
 
     } catch (error) {
@@ -141,7 +158,7 @@ export const userData = async (id: String): Promise<any> => {
     try {
         const userModel = userEntity();  //me traigo el modelo
 
-        const response = await userModel.findById(id)  //busco por id
+        const response = await userModel.findById(id).select('_id name email age')  //busco por id
 
         return response;
 

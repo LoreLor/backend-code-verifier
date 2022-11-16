@@ -14,7 +14,8 @@ export interface IGoodbyeController {
 
 export interface IUserController {
     //read all users || user by id from database
-    getUsers(id?: String): Promise<any>
+    getUsers(page: Number, limit: Number, id?: String): Promise<any>
+
     deleteUser(id?: String): Promise<any>
     //createUser(user: any): Promise<any>
     updateUser(id: String, user: any): Promise<any>
