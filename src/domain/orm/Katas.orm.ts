@@ -9,13 +9,27 @@ import { kataEntity } from '../entities/Katas.entity';
  */
 
 // * GET ALL KATAS
-export const getKatas = async(): Promise<any>=> {
+export const getKatas = async(page:number, limit:number): Promise<any>=> {
     try {
         const kataModel = kataEntity();
+
+        let response: any = {};
         
-        const response = await kataModel.find()
+        const total = await kataModel.countDocuments();
+        response.totalPages = Math.ceil(total / limit)
+        response.currentPage = page;
+
+
+        const katas = await kataModel.find()
+            .select('_id name level')
+            .limit(limit)
+            .skip((page -1) * limit)
+            .exec()
+        response.katas = katas;
+
 
         return response;
+
     } catch (error) {
         LogError(`[ORM ERROR] Get All Katas: ${error}`)
     }
@@ -27,7 +41,7 @@ export const getKataById = async(id:string): Promise<any> => {
     try {
         const kataModel = kataEntity();
 
-        const response = await kataModel.findById(id)
+        const response = await kataModel.findById(id).select('_id name level')
         
         return response;
     } catch (error) {
@@ -77,11 +91,11 @@ export const kataDelete = async(id:string): Promise<any> => {
 
 
 // * KATA FILTER BY LEVEL
-export const getKataByLevel = async(level:any): Promise<any> => {
+export const getKataByLevel = async(page:number, limit:number, level:any): Promise<any> => {
     try {
         const kataModel = kataEntity();
         
-        const response = await kataModel.find({"level": level })
+        const response = await kataModel.find({"level": level }).select('_id name level')
 
         return response
     } catch (error) {

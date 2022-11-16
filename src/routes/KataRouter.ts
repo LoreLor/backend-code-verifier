@@ -7,18 +7,21 @@ export const kataRouter = Router();
 
 kataRouter.route('/')
     .get(async(req:Request, res:Response) => {
-        let level: any = req?.query?.level
+        const level: any = req?.query?.level ;
+        const page: any = req?.query?.page || 1;
+        const limit: any = req?.query?.limit || 10
+
         if(level){
             const controller: KatasController = new KatasController();
 
-            const response: any = await controller.getKataByLevel(level)
+            const response: any = await controller.getKataByLevel(page, limit, level)
 
             return res.status(200).json({msg:`Kata By Level: ${level}`, res:response})
         }else{
             //instancio kata controller to execute method
             const controller: KatasController = new KatasController();
             // obtain response whit method
-            const response: any = await controller.getKatas()
+            const response: any = await controller.getKatas(page, limit)
             // send response to client
             return res.status(200).send(response);
         }
@@ -58,7 +61,8 @@ kataRouter.route('/')
     
     kataRouter.route('/:id')
     .get(async(req:Request, res:Response) => {
-        const {id }= req.params
+        const {id}= req.params;
+      
 
         const controller : KatasController = new KatasController();
         

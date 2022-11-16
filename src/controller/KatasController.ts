@@ -5,11 +5,11 @@ import { IKatasController } from './interfaces/index';
 
 export class KatasController implements IKatasController {
     
-    public async getKatas(): Promise<any> {
+    public async getKatas(page:number, limit:number): Promise<any> {
         try {
             LogSuccess('[/api/katas]: Get All Katas request');
             
-            const response = await getKatas()
+            const response = await getKatas(page, limit)
             
             return response;
         } catch (error) {
@@ -66,11 +66,11 @@ export class KatasController implements IKatasController {
         }
     }
 
-    public async getKataByLevel(level:any): Promise<any> {
+    public async getKataByLevel(page:number, limit:number, level:any): Promise<any> {
         if(level){
             LogSuccess(`[/api/katas/level] Get Kata by Query level: ${level}`)
             
-            const response = await getKataByLevel(level)
+            const response = await getKataByLevel(page, limit, level)
             
             return response;
         }else{

@@ -22,13 +22,13 @@ export interface IUserController {
 }
 
 export interface IKatasController {
-    getKatas(): Promise<any>;
+    getKatas(page: Number, limit: Number,): Promise<any>;
     getKataById(id:String): Promise<any>
     kataCreate(kata:any): Promise<any>
     kataUpdate(id:String, kata:any): Promise<any>
     kataDelete(id:string): Promise<any>
 
-    getKataByLevel(level:Number): Promise<any>
+    getKataByLevel(page: Number, limit: Number, level:Number): Promise<any>
 }
 
 export interface IAuthController {
