@@ -80,4 +80,15 @@ userRouter.route('/')
         return res.status(200).send(response);
     })
 
+userRouter.route('/katas')
+    .get(verifyToken, async(req:Request, res:Response) => {
+        const id: any = req?.query?.id;
+        const page:any = req?.query?.page;
+        const limit:any = req?.query?.limit
 
+        const controller: UserController = new UserController();
+       
+        const response: any = await controller.getUserKatas(page, limit, id) 
+        
+        return res.status(200).json({msg:'Katas from User By Id', res:id })
+    })

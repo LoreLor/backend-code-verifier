@@ -1,3 +1,4 @@
+import { userKatas } from './../domain/orm/User.orm';
 
 import { getUserById, getAllUsers, deleteUserById, updateUser } from '../domain/orm/User.orm';
 import { LogSuccess, LogWarning } from '../utils/loggers';
@@ -5,12 +6,14 @@ import { LogSuccess, LogWarning } from '../utils/loggers';
 import { IUserController } from './interfaces/index';
 
 import { Body, Delete, Get, Post, Put, Query, Route, Tags } from 'tsoa';
+import { get } from 'http';
 
 
 //para documentar con tsa
 @Route('/api/users')
 @Tags('UsersController')
 export class UserController implements IUserController {
+    
 
 
     /**
@@ -19,7 +22,7 @@ export class UserController implements IUserController {
      * @returns All Users or User by Id
      */
     @Get('/')
-    public async getUsers(@Query()page:number, @Query()limit:number, @Query() id?: String): Promise<any> {
+    public async getUsers(@Query() page:number, @Query() limit:number, @Query() id?:string): Promise<any> {
 
         if (id) {
             LogSuccess(`[/api/users?id]: Get User by id: ${id}`)
@@ -86,13 +89,31 @@ export class UserController implements IUserController {
     @Put('/')
     public async updateUser(@Query() id: string, @Body() user: any): Promise<any> {
         if (id) {
+            LogSuccess(`[/api/users] User Updated: ${user} updating successfull`)
             const response = await updateUser(id, user)
 
-            LogSuccess(`[/api/users] User Updated: ${user} updating successfull`)
 
             return response
         } else {
             LogWarning(`[/api/users] Update User: Can not user updating provide any ID`)
         }
+    }
+
+    @Get('/katas')
+    public async getUserKatas(@Query() page: number, @Query() limit: number, @Query() id: string): Promise<any> {
+       if(id){
+            LogSuccess(`[/api/users/katas] Get Katas from User By ID: ${id} `);
+            
+            const response = await userKatas(id)
+            
+            return response
+
+       }else{
+            LogSuccess('[/api/users/katas] Get All Katas without id')
+
+            const response = 'ID from user is needed'
+            
+            return response
+       }       
     }
 }

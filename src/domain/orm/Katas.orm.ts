@@ -20,7 +20,7 @@ export const getKatas = async(page:number, limit:number): Promise<any>=> {
 
 
         const katas: IKata[] = await kataModel.find()
-            .select('_id name level')
+            .select('_id name level creator')
             .limit(limit)
             .skip((page -1) * limit)
             .exec()
@@ -94,7 +94,7 @@ export const getKataByLevel = async(page:number, limit:number, level:any): Promi
     try {
         const kataModel = kataEntity();
         
-        const response = await kataModel.find({"level": level }).select('_id name level')
+        const response = await kataModel.find({"level": level }).select('_id name level creator')
 
         return response
     } catch (error) {

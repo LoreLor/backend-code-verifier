@@ -1,3 +1,4 @@
+
 import { IUser } from './../interfaces/IUser.interface';
 import mongoose from "mongoose";
 
@@ -22,6 +23,10 @@ export const userEntity = () => {
                 type: Number,
                 require: true
             },
+            katas: {
+                type: [],
+                required: true
+            }
         }
     )
 //si eexiste que me lo devuelva y si no que lo genere

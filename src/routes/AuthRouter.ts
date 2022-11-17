@@ -11,21 +11,22 @@ export const authRouter = Router()
 // Authorization 
 authRouter.route('/register')
     .post(async(req:Request, res:Response) => {
-        const {name, email, password, age} = req.body;
+        const {name, email, password, age, katas} = req.body;
         
-        if(name && email && password && age){
+        if(name && email && password && age && katas){
             //si tengo un pass entonces lo hasheo
             const newUser : IUser = {
                 name : name,
                 email : email,
                 age : age,
-                password : bcrypt.hashSync(password, 10)
+                password : bcrypt.hashSync(password, 10),
+                katas: katas
             }
 
             const controller: AuthController = new AuthController();
             const response: any = await controller.userRegister(newUser)
 
-            return res.status(201).json({msg:'User Created', res: response})
+            return res.status(201).json({msg:'User Created', res: newUser})
         }else{
             return res.status(400).send({msg:'User not created'})
         }

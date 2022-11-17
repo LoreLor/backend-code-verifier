@@ -8,7 +8,7 @@ import { KatasController } from './../controller/KatasController';
 export const kataRouter = Router();
 
 kataRouter.route('/')
-    .get(async(req:Request, res:Response) => {
+    .get(verifyToken, async(req:Request, res:Response) => {
         const level: any = req?.query?.level ;
         const page: any = req?.query?.page || 1;
         const limit: any = req?.query?.limit || 10
@@ -31,7 +31,7 @@ kataRouter.route('/')
 
 
     
-    .post(async(req:Request, res:Response) => {
+    .post(verifyToken, async(req:Request, res:Response) => {
         // read from body
         let name:string = req?.body?.name;
         let description:string = req?.body?.description || 'Default Description';
@@ -66,9 +66,8 @@ kataRouter.route('/')
 
 
     kataRouter.route('/:id')
-    .get(async(req:Request, res:Response) => {
+    .get(verifyToken, async(req:Request, res:Response) => {
         const {id}= req.params;
-      
 
         const controller : KatasController = new KatasController();
         
@@ -92,7 +91,6 @@ kataRouter.route('/')
 
      //dstructuring const {...props} = req.body || const {name, description, etc}=req.body
 
-
         const updateKata: any = {
             name:name,
             description:description,
@@ -108,7 +106,7 @@ kataRouter.route('/')
         
         const response: any = await controller.kataUpdate(id, updateKata)
         
-        return res.status(201).json({msg:'Kata successfull update', updateKata})
+        return res.status(201).json({msg:'Kata successfull update', res: updateKata})
     })
     
 

@@ -1,3 +1,4 @@
+import { kataEntity } from './../entities/Katas.entity';
 import { generateToken } from './../../middleware/tokens';
 import { IUser } from './../interfaces/IUser.interface';
 import { IAuth } from '../interfaces/IAuth.interface';
@@ -31,7 +32,7 @@ export const getAllUsers = async (page:number, limit:number): Promise<any[] | un
 
 
         //busco todos los usuarios: me devuelve todos los campos menos la pass
-        const users = await userModel.find({ isDeleted: false }, {_id:1, name:1, email:1, age:1})
+        const users = await userModel.find({ isDeleted: false })
                         //.select('name email age')tambien se puede seleccionar campos asi
                         .limit(limit)
                         .skip((page -1) * limit) //elementos por pagina
@@ -55,7 +56,7 @@ export const getUserById = async (id: String): Promise<any> => {
     try {
         const userModel = userEntity();  //me traigo el modelo
 
-        const response = await userModel.findById(id).select('_id name email age')  //busco por id
+        const response = await userModel.findById(id).select('_id name email age katas')  //busco por id
                             
         return response;
 
@@ -79,22 +80,22 @@ export const deleteUserById = async (id: string): Promise<any> => {
 
 
 // CREATE USER - REGISTER
-// export const createUser = async(user: any): Promise<any> => {
+export const createUser = async(user: any): Promise<any> => {
 
-//     try {
-//         const userModel = userEntity();
+    try {
+        const userModel = userEntity();
 
-//         const response = await userModel.create(user);
+        const response = await userModel.create(user);
 
-//         return response
+        return response
 
-//     } catch (error) {
-//         LogError(`[ORM ERROR] Create User: ${error}`)
-//     }
-// }
+    } catch (error) {
+        LogError(`[ORM ERROR] Create User: ${error}`)
+    }
+}
 
 // UPDATE USER
-export const updateUser = async (id: String, user: any): Promise<any> => {
+export const updateUser = async (id: string, user: any): Promise<any> => {
     try {
         const userModel = userEntity();
 
@@ -103,6 +104,27 @@ export const updateUser = async (id: String, user: any): Promise<any> => {
         return response
     } catch (error) {
         LogError(`[ORM ERROR]: Updating User ${id}: ${error}`);
+    }
+}
+
+
+// KATAS BY USER
+export const userKatas = async(id:string): Promise<any> => {
+    try {
+        const userModel = userEntity();
+        const kataModel = kataEntity();
+
+        //busco al usuario por id
+        const userId = await userModel.findById(id)
+        if(userId){
+            const response= kataModel.find({"_id": userId.katas})
+            return response
+        }else{
+           LogWarning(`[ORM ERROR] Not find katas`)
+        }
+
+    } catch (error) {
+        LogError(`[ORM ERROR]: No Katas from User: ${error}`)
     }
 }
 
