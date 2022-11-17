@@ -1,3 +1,5 @@
+import { verifyToken } from './../middleware/tokens';
+import { IKata, KataLevel } from './../domain/interfaces/IKata.interface';
 import { Request, Response, Router } from "express";
 
 import { KatasController } from './../controller/KatasController';
@@ -32,15 +34,15 @@ kataRouter.route('/')
     .post(async(req:Request, res:Response) => {
         // read from body
         let name:string = req?.body?.name;
-        let description:string = req?.body?.description;
-        let level: number = req?.body?.level;
-        let intents:number = req?.body?.intents;
-        let stars:number = req?.body?.stars;
+        let description:string = req?.body?.description || 'Default Description';
+        let level: KataLevel = req?.body?.level || KataLevel.BASIC;
+        let intents:number = req?.body?.intents || 0;
+        let stars:number = req?.body?.stars || 0;
         let creator:string = req?.body?.creator;
-        let solution:string = req?.body?.solution;
-        let participants:string = req?.body?.participants;
+        let solution:string = req?.body?.solution || 'Default Solution';
+        let participants:string[] = req?.body?.participants || [];
 
-        const newKata: any = {
+        const newKata: IKata = {
             name:name,
             description:description,
             level:level,
@@ -50,15 +52,19 @@ kataRouter.route('/')
             solution:solution,
             participants:participants,
         }
+
+        console.log(newKata)
         //controller instance
         const controller: KatasController = new KatasController();
 
         const response: any = await controller.kataCreate(newKata)
         
-        return res.status(201).json({msg:`Kata create successfull: ${newKata}`})
+        return res.status(201).json({msg:`Kata create successfull`, res: newKata})
     })
-
+//podria hacer un if-else para control
     
+
+
     kataRouter.route('/:id')
     .get(async(req:Request, res:Response) => {
         const {id}= req.params;
@@ -77,12 +83,15 @@ kataRouter.route('/')
         let id: string = req?.params?.id;
         let name:string = req?.body?.name;
         let description:string = req?.body?.description;
-        let level: number = req?.body?.level;
+        let level: KataLevel = req?.body?.level;
         let intents:number = req?.body?.intents;
         let stars:number = req?.body?.stars;
         let creator:string = req?.body?.creator;
         let solution:string = req?.body?.solution;
-        let participants:string = req?.body?.participants;
+        let participants:string[] = req?.body?.participants;
+
+     //dstructuring const {...props} = req.body || const {name, description, etc}=req.body
+
 
         const updateKata: any = {
             name:name,

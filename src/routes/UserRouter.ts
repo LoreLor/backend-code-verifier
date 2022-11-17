@@ -9,7 +9,7 @@ import { Request, Response, Router } from 'express';
 export const userRouter = Router()
 
 userRouter.route('/')
-    .get(verifyToken, async(req: Request, res: Response) => {
+    .get(async(req: Request, res: Response) => {
         //obtain a query param (id)
         const id: any = req?.query?.id;
 

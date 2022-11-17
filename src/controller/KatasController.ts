@@ -101,21 +101,21 @@ export class KatasController implements IKatasController {
         }
     }
 
-    // /**
-    //  * Endpoint to get Kata By Level in the Collection "katas" of DB
-    //  * @param {KataLevel} level  query param from Id of kata 
-    //  * @returns detail of kata
-    //  */
-    // @Get('')
-    // public async getKataByLevel(@Query() page:number, @Query() limit:number, @Query() level:KataLevel): Promise<any> {
-    //     if(level){
-    //         LogSuccess(`[/api/katas?level] Get Kata by Query level: ${level}`)
+    /**
+     * Endpoint to get Kata By Level in the Collection "katas" of DB
+     * @param {KataLevel} level  query param from Id of kata 
+     * @returns detail of kata
+     */
+    @Get('')
+    public async getKataByLevel(@Query() page:number, @Query() limit:number, @Query() level:KataLevel): Promise<any> {
+        if(level){
+            LogSuccess(`[/api/katas?level] Get Kata by Query level: ${level}`)
             
-    //         const response = await getKataByLevel(page, limit, level)
+            const response = await getKataByLevel(page, limit, level)
             
-    //         return response;
-    //     }else{
-    //         LogError(`[ORM ERROR] Kata by level not found`)
-    //     }
-    // }
+            return response;
+        }else{
+            LogError(`[ORM ERROR] Kata by level not found`)
+        }
+    }
 }

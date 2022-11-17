@@ -11,7 +11,11 @@ import { Body, Get, Path, Post, Query, Route, Tags } from 'tsoa';
 @Tags('AuthController')
 export class AuthController implements IAuthController {
     
-    
+    /**
+     * Endpoint to post a new User Authenticated in the Collection "users" of DB
+     * @param { any } user Object created
+     * @returns User created in DB
+     */
     @Post('/register')
     public async userRegister(@Body()user: IUser): Promise<any> {
         if(user){
@@ -23,6 +27,7 @@ export class AuthController implements IAuthController {
         }
     }
     
+
     @Post('/login')
     public async userLogin(@Body()auth: IAuth): Promise<any> {
         let response;

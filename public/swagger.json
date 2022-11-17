@@ -143,10 +143,10 @@
 	"paths": {
 		"/api/katas": {
 			"get": {
-				"operationId": "GetKatas",
+				"operationId": "GetKataByLevel",
 				"responses": {
 					"200": {
-						"description": "katas with pagination",
+						"description": "detail of kata",
 						"content": {
 							"application/json": {
 								"schema": {}
@@ -154,7 +154,7 @@
 						}
 					}
 				},
-				"description": "Endpoint to retrieve the Katas in the Collection \"katas\" of DB",
+				"description": "Endpoint to get Kata By Level in the Collection \"katas\" of DB",
 				"tags": [
 					"KatasController"
 				],
@@ -170,13 +170,21 @@
 						}
 					},
 					{
-						"description": "pagination",
 						"in": "query",
 						"name": "limit",
 						"required": true,
 						"schema": {
 							"format": "double",
 							"type": "number"
+						}
+					},
+					{
+						"description": "query param from Id of kata",
+						"in": "query",
+						"name": "level",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/KataLevel"
 						}
 					}
 				]
@@ -394,7 +402,7 @@
 				"operationId": "UpdateUser",
 				"responses": {
 					"200": {
-						"description": "User created in DB",
+						"description": "User updating in DB",
 						"content": {
 							"application/json": {
 								"schema": {}
@@ -402,7 +410,7 @@
 						}
 					}
 				},
-				"description": "Endpoint to post a new User in the Collection \"users\" of DB",
+				"description": "Endpoint to update an User in the Collection \"users\" of DB",
 				"tags": [
 					"UsersController"
 				],
@@ -499,7 +507,7 @@
 				"operationId": "UserRegister",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "User created in DB",
 						"content": {
 							"application/json": {
 								"schema": {}
@@ -507,17 +515,20 @@
 						}
 					}
 				},
+				"description": "Endpoint to post a new User Authenticated in the Collection \"users\" of DB",
 				"tags": [
 					"AuthController"
 				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
+					"description": "Object created",
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/IUser"
+								"$ref": "#/components/schemas/IUser",
+								"description": "Object created"
 							}
 						}
 					}

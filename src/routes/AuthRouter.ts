@@ -57,7 +57,7 @@ authRouter.route('/login')
 //* PROTEJO RUTAS: uso middleware
 // Obtengo Usuario por query
 authRouter.route('/userData')
-    .get(verifyToken, async(req:Request, res:Response) => {
+    .get( async(req:Request, res:Response) => {
         const id: any = req?.query?.id
 
         if(id){

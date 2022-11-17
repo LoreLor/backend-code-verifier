@@ -29,7 +29,7 @@ export interface IKatasController {
     kataUpdate(id:string, kata:any): Promise<any>
     kataDelete(id:string): Promise<any>
 
-    //getKataByLevel(page: number, limit: number, level:KataLevel): Promise<any>
+    getKataByLevel(page: number, limit: number, level:KataLevel): Promise<any>
 }
 
 export interface IAuthController {

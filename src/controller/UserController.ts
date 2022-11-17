@@ -12,7 +12,7 @@ import { Body, Delete, Get, Post, Put, Query, Route, Tags } from 'tsoa';
 @Tags('UsersController')
 export class UserController implements IUserController {
 
-    
+
     /**
      * Endpoint to retrieve the Users in the Collection "users" of DB
      * @param {string} id  Id of user to retriev (optional)
@@ -63,11 +63,7 @@ export class UserController implements IUserController {
         return response
     }
 
-    /**
-     * Endpoint to post a new User in the Collection "users" of DB
-     * @param { any } user Object created
-     * @returns User created in DB
-     */
+    
     // @Post('/')
     //public async createUser(@Body() user?: any): Promise<any> {
     //     if (user) {
