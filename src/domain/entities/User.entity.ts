@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 export const userEntity = () => {
 
-    let userSchema = new mongoose.Schema<IUser>(
+    const userSchema = new mongoose.Schema<IUser>(
         {
             name: {
                 type: String,

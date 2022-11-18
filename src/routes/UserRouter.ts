@@ -88,7 +88,7 @@ userRouter.route('/katas')
 
         const controller: UserController = new UserController();
        
-        const response: any = await controller.getUserKatas(page, limit, id) 
+        const response: any = await controller.getKatas(page, limit, id) 
         
-        return res.status(200).json({msg:'Katas from User By Id', res:id })
+        return res.status(200).send({msg:'Katas from User By Id', res: response })
     })

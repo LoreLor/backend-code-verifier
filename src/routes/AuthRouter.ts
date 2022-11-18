@@ -74,10 +74,4 @@ authRouter.route('/userData')
     })
 
 
-
-
-
-
-
-
     //TODO: LOGOUT

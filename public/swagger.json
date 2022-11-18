@@ -34,7 +34,7 @@
 						"format": "double"
 					},
 					"creator": {
-						"type": "string"
+						"$ref": "#/components/schemas/IUser"
 					},
 					"participants": {
 						"items": {
@@ -55,6 +55,38 @@
 					"creator",
 					"participants",
 					"solution"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IUser": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"age": {
+						"type": "number",
+						"format": "double"
+					},
+					"password": {
+						"type": "string"
+					},
+					"katas": {
+						"items": {
+							"$ref": "#/components/schemas/IKata"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"name",
+					"email",
+					"age",
+					"password",
+					"katas"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -83,31 +115,6 @@
 				],
 				"type": "object",
 				"description": "Para definir la estructura de mis datos: devuelve un json"
-			},
-			"IUser": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"age": {
-						"type": "number",
-						"format": "double"
-					},
-					"password": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"name",
-					"email",
-					"age",
-					"password"
-				],
-				"type": "object",
-				"additionalProperties": false
 			},
 			"IAuth": {
 				"properties": {
@@ -436,6 +443,53 @@
 						}
 					}
 				}
+			}
+		},
+		"/api/users/katas": {
+			"get": {
+				"operationId": "GetUserKatas",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"UsersController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/api/goodbye": {

@@ -100,18 +100,21 @@ export class UserController implements IUserController {
     }
 
     @Get('/katas')
-    public async getUserKatas(@Query() page: number, @Query() limit: number, @Query() id: string): Promise<any> {
-       if(id){
+    public async getKatas(@Query() page: number, @Query() limit: number, @Query() id: string): Promise<any> {
+       let response:any ='';
+        if(id){
             LogSuccess(`[/api/users/katas] Get Katas from User By ID: ${id} `);
             
-            const response = await userKatas(id)
+            response = await userKatas(id)
             
             return response
 
        }else{
             LogSuccess('[/api/users/katas] Get All Katas without id')
 
-            const response = 'ID from user is needed'
+            response = {
+                msg:'ID from user is needed'
+            }
             
             return response
        }       

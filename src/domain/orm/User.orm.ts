@@ -1,3 +1,5 @@
+import { getKatas } from './Katas.orm';
+import { IKata } from './../interfaces/IKata.interface';
 import { kataEntity } from './../entities/Katas.entity';
 import { generateToken } from './../../middleware/tokens';
 import { IUser } from './../interfaces/IUser.interface';
@@ -9,6 +11,7 @@ import { userEntity } from "../entities/User.entity";
 
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
@@ -18,7 +21,7 @@ dotenv.config();
 /**
  * Metodo para obtener todos los Usuarios de la coleccion de Mongo
  */
-export const getAllUsers = async (page:number, limit:number): Promise<any[] | undefined> => {
+export const getAllUsers = async (page:number, limit:number): Promise<any> => {
     try {
         //me traigo el modelo
         const userModel = userEntity();
@@ -108,29 +111,9 @@ export const updateUser = async (id: string, user: any): Promise<any> => {
 }
 
 
-// KATAS BY USER
-export const userKatas = async(id:string): Promise<any> => {
-    try {
-        const userModel = userEntity();
-        const kataModel = kataEntity();
-
-        //busco al usuario por id
-        const userId = await userModel.findById(id)
-        if(userId){
-            const response= kataModel.find({"_id": userId.katas})
-            return response
-        }else{
-           LogWarning(`[ORM ERROR] Not find katas`)
-        }
-
-    } catch (error) {
-        LogError(`[ORM ERROR]: No Katas from User: ${error}`)
-    }
-}
-
 
 // REGISTER USER
-export const userRegister = async (user: IUser): Promise<any | undefined> => {
+export const userRegister = async (user: IUser): Promise<any> => {
     try {
         const userModel = userEntity();
 
@@ -144,7 +127,7 @@ export const userRegister = async (user: IUser): Promise<any | undefined> => {
 
 
 // LOGIN USER
-export const userLogin = async (auth: IAuth): Promise<any | undefined> => {
+export const userLogin = async (auth: IAuth): Promise<any> => {
     try {
         const userModel = userEntity();
 
@@ -180,13 +163,60 @@ export const userData = async (id: String): Promise<any> => {
     try {
         const userModel = userEntity();  //me traigo el modelo
 
-        const response = await userModel.findById(id).select('_id name email age')  //busco por id
+        const response = await userModel.findById(id)
+            .select('_id name email age')  //busco por id
+            .populate('katas')
 
         return response;
 
     } catch (error) {
         LogError(`[ORM ERROR] Get User By Id: ${error}`)
     }
+}
+
+// KATAS BY USER: 
+export const userKatas = async(id:string): Promise<any> => {
+    try {
+        const userModel = userEntity();
+        const katasModel = kataEntity();
+
+        let katasFound: IKata[] = [];
+
+        let response: any = {
+            user: '',
+            katas: []
+        };
+
+        console.log('User ID', id);
+
+        await userModel.findById(id).then(async (user: IUser) => {
+            response.user = user.email;
+            
+            // console.log('Katas from User', user.katas);
+
+            // Create types to search
+            let objectIds: mongoose.Types.ObjectId[]  = [];
+            user.katas.forEach((kataID: string) => {
+                let objectID = new mongoose.Types.ObjectId(kataID);
+                objectIds.push(objectID);
+            });
+
+            await katasModel.find({"_id": {"$in": objectIds }}).then((katas: IKata[]) => {
+                //console.log(katas)
+                katasFound = katas;
+                response.katas = katasFound;
+            });
+
+        }).catch((error) => {
+            LogError(`[ORM ERROR]: Obtaining User: ${error}`);
+        })
+
+        return response;
+
+    } catch (error) {
+        LogError(`[ORM ERROR]: Getting All Users: ${error}`);
+    }
+
 }
 
 

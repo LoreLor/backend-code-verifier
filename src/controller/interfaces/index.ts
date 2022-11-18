@@ -22,14 +22,14 @@ export interface IUserController {
     updateUser(id: string, user: any): Promise<any>
 
     // obtengo las katas de un usuario
-    getUserKatas(page: number, limit: number, id?: string):Promise<any>
+    getKatas(page: number, limit: number, id?: string):Promise<any>
 }
 
 export interface IKatasController {
     getKatas(page: number, limit: number): Promise<any>;
     getKataById(id:string): Promise<any>
     kataCreate(kata:IKata): Promise<any>
-    kataUpdate(id:string, kata:any): Promise<any>
+    kataUpdate(id:string, kata:IKata): Promise<any>
     kataDelete(id:string): Promise<any>
 
     getKataByLevel(page: number, limit: number, level:KataLevel): Promise<any>

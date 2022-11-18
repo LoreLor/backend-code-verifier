@@ -40,5 +40,5 @@ export const kataEntity = () => {
         }
     )
 
-    return mongoose.models.katas || mongoose.model('katas', kataSchema)
+    return mongoose.models.Katas || mongoose.model('Katas', kataSchema)
 }

@@ -1,3 +1,4 @@
+import { IUser } from './../domain/interfaces/IUser.interface';
 import { verifyToken } from './../middleware/tokens';
 import { IKata, KataLevel } from './../domain/interfaces/IKata.interface';
 import { Request, Response, Router } from "express";
@@ -38,7 +39,7 @@ kataRouter.route('/')
         let level: KataLevel = req?.body?.level || KataLevel.BASIC;
         let intents:number = req?.body?.intents || 0;
         let stars:number = req?.body?.stars || 0;
-        let creator:string = req?.body?.creator;
+        let creator:string = req.body.creator;
         let solution:string = req?.body?.solution || 'Default Solution';
         let participants:string[] = req?.body?.participants || [];
 
@@ -106,7 +107,7 @@ kataRouter.route('/')
         
         const response: any = await controller.kataUpdate(id, updateKata)
         
-        return res.status(201).json({msg:'Kata successfull update', res: updateKata})
+        return res.status(201).json({msg:'Kata successfull update', updateKata})
     })
     
 
