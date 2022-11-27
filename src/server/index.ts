@@ -18,6 +18,16 @@ const server:Express = express();
 server.use(express.json());
 
 
+
+  
+const allowedOrigins = ['http://localhost:3000'];
+
+const options: cors.CorsOptions = {
+  origin: allowedOrigins
+};
+
+server.use(cors(options));
+
 // * Swagger: configuracion de ruta 
 server.use('/docs', 
     swaggerUi.serve,
@@ -47,8 +57,7 @@ mongoose.connect('mongodb://localhost:27017/code-verified')
 
 //* security config
 server.use(helmet());
-server.use(cors());
-
+//server.use(cors())
 
 //* contenido que va a controlar: Content Type
 server.use(express.urlencoded({extended: true, limit:'50mb'}))

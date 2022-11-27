@@ -38,26 +38,28 @@ export const verifyToken = async(req:Request, res:Response, next:NextFunction) =
     let token: any = req.headers['x-access-token'];
 
     // Verify if jwt is present
-    if(!token){
-        return res.status(403).send({
+    if(token){
+        
+        // Verify the token obtained. We pass the secret
+        jwt.verify(token, process.env.JWT_KEY || 'Secret_JWT', (err: any, decoded: any) => {
+            if(err){
+                return res.status(401).send({
+                    authenticationError: 'JWT verification failed',
+                    message: 'Failed to verify JWT token in request'
+                });
+            }else{
+                req = decoded
+            }
+            next();
+    
+            // Execute Next Function -> Protected Routes will be executed
+    
+        });
+        
+    }else{
+        return res.status(404).send({
             authenticationError: 'Missing JWT in request',
             message: 'Not authorised to consume this endpoint'
         });
     }
-
-    // Verify the token obtained. We pass the secret
-    jwt.verify(token, process.env.JWT_KEY || 'Secret_JWT', (err: any, decoded: any) => {
-
-        if(err){
-            return res.status(500).send({
-                authenticationError: 'JWT verification failed',
-                message: 'Failed to verify JWT token in request'
-            });
-        }
-
-        // Execute Next Function -> Protected Routes will be executed
-        next();
-
-    });
-
 }

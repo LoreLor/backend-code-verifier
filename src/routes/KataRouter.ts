@@ -1,4 +1,4 @@
-import { IUser } from './../domain/interfaces/IUser.interface';
+
 import { verifyToken } from './../middleware/tokens';
 import { IKata, KataLevel } from './../domain/interfaces/IKata.interface';
 import { Request, Response, Router } from "express";
@@ -78,7 +78,7 @@ kataRouter.route('/')
     })
     
 
-    .put(async(req:Request, res:Response) => {
+    .put(verifyToken, async(req:Request, res:Response) => {
         // read from body
         let id: string = req?.params?.id;
         let name:string = req?.body?.name;
@@ -111,7 +111,7 @@ kataRouter.route('/')
     })
     
 
-    .delete(async(req:Request, res:Response) => {
+    .delete(verifyToken, async(req:Request, res:Response) => {
         let id : string = req.params.id;
 
         const controller: KatasController = new KatasController();

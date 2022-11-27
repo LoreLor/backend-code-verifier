@@ -33,9 +33,7 @@
 						"type": "number",
 						"format": "double"
 					},
-					"creator": {
-						"$ref": "#/components/schemas/IUser"
-					},
+					"creator": {},
 					"participants": {
 						"items": {
 							"type": "string"
@@ -55,38 +53,6 @@
 					"creator",
 					"participants",
 					"solution"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"IUser": {
-				"properties": {
-					"name": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"age": {
-						"type": "number",
-						"format": "double"
-					},
-					"password": {
-						"type": "string"
-					},
-					"katas": {
-						"items": {
-							"$ref": "#/components/schemas/IKata"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"name",
-					"email",
-					"age",
-					"password",
-					"katas"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -115,6 +81,38 @@
 				],
 				"type": "object",
 				"description": "Para definir la estructura de mis datos: devuelve un json"
+			},
+			"IUser": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"age": {
+						"type": "number",
+						"format": "double"
+					},
+					"password": {
+						"type": "string"
+					},
+					"katas": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"name",
+					"email",
+					"age",
+					"password",
+					"katas"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"IAuth": {
 				"properties": {
@@ -447,7 +445,7 @@
 		},
 		"/api/users/katas": {
 			"get": {
-				"operationId": "GetUserKatas",
+				"operationId": "GetKatas",
 				"responses": {
 					"200": {
 						"description": "Ok",
