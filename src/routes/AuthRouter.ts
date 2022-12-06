@@ -18,8 +18,8 @@ authRouter.route('/register')
             const newUser : IUser = {
                 name : name,
                 email : email,
-                age : age,
                 password : bcrypt.hashSync(password, 10),
+                age : age,
                 katas: katas
             }
 

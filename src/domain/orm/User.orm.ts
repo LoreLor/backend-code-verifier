@@ -133,9 +133,9 @@ export const userLogin = async (auth: IAuth): Promise<any> => {
 
         //valido existencia de usuario buscando el email
         const user = await userModel.findOne({ email: auth.email })
+        
         if (!user) {
             LogError(`[ERROR Authentication in ORM]: User Not Found: ${user}`);
-
         }
         //comparo las contraseñas: guardada e ingresada
         const validPassword = bcrypt.compareSync(auth.password, user.password)
@@ -158,6 +158,8 @@ export const userLogin = async (auth: IAuth): Promise<any> => {
         LogError(`[ORM ERROR]: Login User : ${error}`);
     }
 }
+
+
 
 export const userData = async (id: String): Promise<any> => {
     try {

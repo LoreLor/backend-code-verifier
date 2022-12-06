@@ -90,12 +90,12 @@
 					"email": {
 						"type": "string"
 					},
+					"password": {
+						"type": "string"
+					},
 					"age": {
 						"type": "number",
 						"format": "double"
-					},
-					"password": {
-						"type": "string"
 					},
 					"katas": {
 						"items": {
@@ -107,8 +107,8 @@
 				"required": [
 					"name",
 					"email",
-					"age",
 					"password",
+					"age",
 					"katas"
 				],
 				"type": "object",
