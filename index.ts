@@ -14,6 +14,7 @@ const port = process.env.PORT || 8000;
  */
 server.listen(port, () => {
     LogSuccess(`[SERVER ON]: running at http://localhost:${port}/api`)
+    
 })
 
 /**

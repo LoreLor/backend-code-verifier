@@ -57,7 +57,7 @@ server.use(express.static('public'))
 
 //* Mongoose Connection
 mongoose.connect('mongodb://localhost:27017/code-verified')
-.then(res => console.log(`estoy conectada a bd`))
+.then(res => console.log(`Welcome to my API Restful: Express + TS + Nodemon + Jest + Swagger + Mongoose'`))
 
 
 

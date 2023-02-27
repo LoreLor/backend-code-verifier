@@ -40,12 +40,6 @@
 						},
 						"type": "array"
 					},
-					"nameFiles": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
 					"solution": {
 						"type": "string"
 					}
@@ -58,7 +52,6 @@
 					"stars",
 					"creator",
 					"participants",
-					"nameFiles",
 					"solution"
 				],
 				"type": "object",
