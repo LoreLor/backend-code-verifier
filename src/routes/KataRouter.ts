@@ -6,6 +6,7 @@ import { Request, Response, Router } from "express";
 import { KatasController } from './../controller/KatasController';
 
 
+
 export const kataRouter = Router();
 
 kataRouter.route('/')
@@ -120,3 +121,44 @@ kataRouter.route('/')
         
         return res.status(200).json({msg:`Kata Delete Successfull: ${id}`, })
     })
+
+
+//TODO: no funciona
+    kataRouter.route('/uploadFile')
+    .post(verifyToken, async(req:any, res:any) => {
+        let files: any = req?.body?.files;
+        console.log('req', req)
+
+        try {
+            if (!req.files) {            
+                res.status(400).send({
+                status: false,
+                message: "No file uploaded",
+                payload: {},
+              });
+
+            } else {
+                //Use the name of the input field (i.e. "file") to retrieve the uploaded file
+                let file = files.file;
+                file.mv("./uploads/" + file.name);
+                //send response
+                res.send({
+                status: true,
+                message: "File was uploaded successfully",
+                payload: {
+                    name: file.name,
+                    mimetype: file.mimetype,
+                    path: "/files/uploads/",
+                },
+                });
+            }
+        } catch (err) {
+            res.status(500).send({
+                status: false,
+                message: "Unspected problem",
+                payload: {},
+            });
+        }
+    });
+    
+    

@@ -1,5 +1,7 @@
+import  fileUpload  from 'express-fileupload';
 import express, {Express, Request, Response} from 'express';
 import swaggerUi from 'swagger-ui-express';
+
 
 
 //seguridad
@@ -13,13 +15,17 @@ import mongoose from 'mongoose';
 
 
 
+
 //creacion server app- express  app || server
 const server:Express = express();
 server.use(express.json());
 
 
+// enable files upload
+server.use(fileUpload());
 
-  
+
+
 const allowedOrigins = ['http://localhost:3000'];
 
 const options: cors.CorsOptions = {

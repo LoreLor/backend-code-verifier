@@ -40,6 +40,12 @@
 						},
 						"type": "array"
 					},
+					"nameFiles": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
 					"solution": {
 						"type": "string"
 					}
@@ -52,6 +58,7 @@
 					"stars",
 					"creator",
 					"participants",
+					"nameFiles",
 					"solution"
 				],
 				"type": "object",
@@ -324,6 +331,26 @@
 						}
 					}
 				]
+			}
+		},
+		"/api/katas/uploadFile": {
+			"post": {
+				"operationId": "UploadKataFile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"KatasController"
+				],
+				"security": [],
+				"parameters": []
 			}
 		},
 		"/api/users": {

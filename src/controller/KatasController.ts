@@ -7,7 +7,7 @@ import { Body, Delete, Get, Path, Post, Put, Query, Route, Tags } from 'tsoa';
 @Route('/api/katas')
 @Tags("KatasController")
 export class KatasController implements IKatasController {
-
+    
 
     /**
      * Endpoint to retrieve the Katas in the Collection "katas" of DB
@@ -118,4 +118,11 @@ export class KatasController implements IKatasController {
             LogError(`[ORM ERROR] Kata by level not found`)
         }
     }
+
+    @Post('/uploadFile')
+    public async uploadKataFile(): Promise<any> {
+        throw new Error('Method not implemented.');
+    }
+
 }
+

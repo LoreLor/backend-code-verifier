@@ -37,6 +37,7 @@ export const kataEntity = () => {
                 type: [],
                 require: true
             }
+            
         }
     )
 
